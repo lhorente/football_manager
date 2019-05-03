@@ -20,8 +20,22 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 // Clubs
-Route::get('/clubs', 'ClubsController@index')->name('clubsIndex'); // Lista todos os clubes
-Route::get('/clubs/{id}', 'ClubsController@index')->name('clubsGet'); // Exibe as informações de um clube
-Route::post('/clubs', 'ClubsController@save')->name('clubsPost');
-Route::put('/clubs/{id}', 'ClubsController@edit')->name('clubsPut');
-Route::delete('/clubs/{id}', 'ClubsController@remove')->name('clubsDelete');
+Route::get('/clubs', 'ClubsController@index')->name('clubsIndex'); // List all clubs
+Route::get('/clubs/{id}/players', 'ClubsController@viewPlayers')->name('clubsViewPlayers'); // View club players
+Route::get('/clubs/create', 'ClubsController@create')->name('clubsCreate'); // create club form
+Route::get('/clubs/edit/{id}', 'ClubsController@edit')->name('clubsEdit'); // edit club form
+Route::get('/clubs/remove/{id}', 'ClubsController@remove')->name('clubsRemove'); // Remove club
+Route::post('/clubs/create', 'ClubsController@postCreate')->name('clubsPostCreate'); // Create club
+Route::post('/clubs/edit/{id}', 'ClubsController@postEdit')->name('clubsPostEdit'); // Edit club
+
+// Players
+Route::get('/players', 'PlayersController@index')->name('playersIndex'); // List all players
+Route::get('/players/{id}', 'PlayersController@view')->name('playersView'); // View player
+Route::get('/players/create', 'PlayersController@create')->name('playersCreate'); // create player form
+Route::get('/players/edit/{id}', 'PlayersController@edit')->name('playersEdit'); // edit player form
+Route::get('/players/remove/{id}', 'PlayersController@remove')->name('playersRemove'); // Remove player
+Route::post('/players/create', 'PlayersController@postCreate')->name('playersPostCreate'); // Create player
+Route::post('/players/edit/{id}', 'PlayersController@postEdit')->name('playersPostEdit'); // Edit player
+
+Route::get('/export', 'PlayersController@export')->name('playersExport'); // Export players
+Route::post('/export', 'PlayersController@postExport')->name('playersPostExport'); // Export players to CSV

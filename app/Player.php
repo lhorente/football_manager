@@ -9,4 +9,9 @@ class Player extends Model{
 	use SoftDeletes;
 	
     protected $table = 'players';
+	
+    public function club()
+    {
+        return $this->belongsTo('App\Club');
+    }
 }
