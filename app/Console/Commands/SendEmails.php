@@ -54,7 +54,7 @@ class SendEmails extends Command
 			// for ($i=1;$i<=10000;$i++){
 				foreach ($players as $player){
 					$xml .= '	<player>'."\n";
-					$xml .= '		<name>'.$player->name. "({$i})" . '</name>'."\n";
+					$xml .= '		<name>'.$player->name.'</name>'."\n";
 					$xml .= '		<birthdate>'.$player->birthdate.'</birthdate>'."\n";
 					$xml .= '		<club>'.$player->club->name.'</club>'."\n";
 					$xml .= '	</player>'."\n";
@@ -83,13 +83,13 @@ class SendEmails extends Command
 				try {
 					// $mail->SMTPDebug = 2;
 					$mail->isSMTP();
-					$mail->Host       = 'smtp.gmail.com';
+					$mail->Host       = env("SMTP_HOST");
 					$mail->SMTPAuth   = true;
-					$mail->Username   = 'noreply@lhorente.com.br';
-					$mail->Password   = 's5nOX0m0JuctC3b8';
-					$mail->SMTPSecure = 'tls';
-					$mail->Port       = 587;
-					$mail->setFrom('noreply@lhorente.com.br', 'No-Reply Lhorente');
+					$mail->Username   = env("SMTP_USER");
+					$mail->Password   = env("SMTP_PASS");
+					$mail->SMTPSecure = env("SMTP_SECURE");
+					$mail->Port       = env("SMTP_PORT");
+					$mail->setFrom(env("SMTP_USER"));
 					$mail->addAddress($request->email);
 					$mail->isHTML(true);                                  // Set email format to HTML
 					$mail->Subject = 'XML Report';
