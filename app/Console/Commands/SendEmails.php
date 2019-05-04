@@ -69,7 +69,7 @@ class SendEmails extends Command
 				echo 'Sending XML report to '.$request->email."\n";
 				
 				$file_name = bin2hex(openssl_random_pseudo_bytes(16)).".xml";
-				$file_path = public_path()."\\reports\\".$file_name;
+				$file_path = public_path()."/reports/".$file_name;
 				$file_url = url("reports/{$file_name}");
 				
 				// echo $file_path;exit;
@@ -93,8 +93,8 @@ class SendEmails extends Command
 					$mail->addAddress($request->email);
 					$mail->isHTML(true);                                  // Set email format to HTML
 					$mail->Subject = 'XML Report';
-					$mail->Body    = '<a href="'.$file_url.'">Download XML</a>';
-					$mail->AltBody = 'Download XML: '.$file_url;
+					$mail->Body    = 'You report is ready: <a href="'.$file_url.'">Download XML</a>';
+					$mail->AltBody = 'You report is ready: '.$file_url;
 					$mail->send();
 					$request->send_at = date("Y-m-d H:i:s");
 					$request->save();
