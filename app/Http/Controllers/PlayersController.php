@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Validator;
 use App\Club;
 use App\Player;
+use App\XmlRequest;
 
 class PlayersController extends Controller{
     public function index(Request $request){
@@ -112,28 +113,39 @@ class PlayersController extends Controller{
 	}
 	
 	public function postExport(Request $request){
-		header('Content-Type: text/csv');
-		header('Content-Disposition: attachment; filename="players.csv"');
-	
 		$data = $request->all();
 		
 		if ($data['club_id']){
-			$players = Player::where('club_id',$data['club_id'])->get();			
+			header('Content-Type: text/csv');
+			header('Content-Disposition: attachment; filename="players.csv"');
+			
+			$players = Player::where('club_id',$data['club_id'])->get();
+			
+			$columns = ["Name","Birthdate","Club"];
+			
+			echo "Name;Birthdate;Club\n";
+			
+			if ($players){
+				foreach ($players as $player){
+					echo $player->name . ";";
+					echo $player->birthdate . ";";
+					echo $player->club->name . "\n";
+				}
+			}
 		} else {
-			$players = Player::get();
-		}
-		
-		$columns = ["Name","Birthdate","Club"];
-		
-		echo "Name;Birthdate;Club\n";
-		
-		if ($players){
-			foreach ($players as $player){
-				echo $player->name . ";";
-				echo $player->birthdate . ";";
-				echo $player->club->name . "\n";
-				// fputcsv($file, [$player->name, $player->birthdate, $player->club->name]);
+			$xmlRequest = new XmlRequest;
+			$xmlRequest->email = "willian.lhorente@gmail.com";
+			if ($xmlRequest->save()){
+				$request->session()->flash('message', 'Success! You will receive the XML report on your email.'); 
+				$request->session()->flash('alert-class', 'alert-success');
+				return redirect()->route('playersExport');
+			} else {
+				$request->session()->flash('message', 'Error request XML, please try again.'); 
+				$request->session()->flash('alert-class', 'alert-error');
+				return redirect()->route('playersExport');
 			}
 		}
+
+
 	}
 }

@@ -13,15 +13,18 @@
 					@csrf
 					<div class="form-group">
 						<label for="club">Club</label>
-						<select class="form-control" name="club_id">
+						<select class="form-control" name="club_id" id="select-club">
 							<option value="">All Clubs</option>
 							<?php foreach ($clubs as $club){ ?>
 								<option value="<?php echo $club->id ?>"><?php echo $club->name ?></option>
 							<?php } ?>
 						</select>
 					</div>
-
-				  <button type="submit" class="btn btn-primary">Export CSV</button>
+					<div class="form-group" id="form-froup-email" style="display:none;">
+						<label for="email">Email</label>
+						<input type="text" class="form-control" name="email" id="email" placeholder="Email que irá receber o XML para download">
+					</div>
+				  <button type="submit" class="btn btn-primary" id="btn-export">Download CSV</button>
 				</form>
 			</div>
 		</div>
